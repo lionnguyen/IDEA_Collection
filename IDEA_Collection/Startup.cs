@@ -1,12 +1,18 @@
+using AspNetCoreHero.ToastNotification;
+using IDEA_Collection.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace IDEA_Collection
@@ -24,6 +30,26 @@ namespace IDEA_Collection
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var connectString = Configuration.GetConnectionString("CollectIdeasConnectionString");
+            services.AddDbContext<CollectIdeasContext>(options => options.UseSqlServer(connectString));
+
+            services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
+            services.AddSession();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(p =>
+               {
+                   p.Cookie.Name = "UserLoginCookie";
+                   p.ExpireTimeSpan = TimeSpan.FromDays(1);
+                   p.AccessDeniedPath = "/not-found.html";
+               });
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddNotyf(config =>
+            {
+                config.DurationInSeconds = 3;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.TopRight;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,13 +67,19 @@ namespace IDEA_Collection
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                 name: "areas",
+                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+               );
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

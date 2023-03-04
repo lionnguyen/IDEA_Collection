@@ -1,0 +1,51 @@
+﻿<div class="side-nav">
+    <div class="side-nav-inner">
+        <ul class="side-nav-menu scrollable">
+            <li class="nav-item">
+                <a class="dropdown-toggle" asp-area="QADepartment" asp-controller="Home" asp-action="Index">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-dashboard"></i>
+                    </span>
+                    <span class="title">Dashboard</span>
+                    <span class="arrow">
+                        <i class="arrow-icon"></i>
+                    </span>
+                </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="dropdown-toggle" asp-action="Index" asp-controller="QAAccounts" asp-area="QADepartment">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-user"></i>
+                    </span>
+                    <span class="title">Account manage</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-area="QADepartment" asp-controller="QACategories" asp-action="Index">
+                    <span class="icon-holder">
+                          <i class="anticon anticon-read"></i>
+                    </span>
+                    <span class="title">Categories manage</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a asp-area="QADepartment" asp-controller="QAComments" asp-action="Index">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-file"></i>
+                    </span>
+                    <span class="title">Comments manage</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="dropdown-toggle" asp-action="Index" asp-controller="QAIdeas" asp-area="QADepartment">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-form"></i>
+                    </span>
+                    <span class="title">Ideas manage</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
