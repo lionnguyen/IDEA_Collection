@@ -62,36 +62,36 @@ namespace IDEA_Collection.Controllers
             }
         }
 
-        //[Route("my-account.html", Name = "MyAccount")]
-        //public IActionResult MyAccount()
-        //{
-        //    var taikhoanID = HttpContext.Session.GetString("AccountId");
-        //    if (taikhoanID != null)
-        //    {
-        //        var myAccount = _context.Accounts
-        //            .Include(x => x.Role)
-        //            .Include(x => x.Department)
-        //            .AsNoTracking()
-        //            .SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));
-        //        if (myAccount != null)
-        //        {
-        //            var lsIdeas = _context.Ideas
-        //                .Include(x => x.Account)
-        //                .Include(x => x.Comments)
-        //                .Include(x => x.Cat)
-        //                .AsNoTracking()
-        //                .Where(x => x.AccountId == myAccount.AccountId)
-        //                .OrderByDescending(x => x.CreatedDate)
-        //                .ToList();
-        //            ViewBag.Ideas = lsIdeas;
-        //            var avata = myAccount.Avatar;
-        //            ViewBag.avata = avata;
-        //            return View(myAccount);
-        //        }
+        [Route("my-account.html", Name = "MyAccount")]
+        public IActionResult MyAccount()
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID != null)
+            {
+                var myAccount = _context.Accounts
+                    .Include(x => x.Role)
+                    .Include(x => x.Department)
+                    .AsNoTracking()
+                    .SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));
+                if (myAccount != null)
+                {
+                    var lsIdeas = _context.Ideas
+                        .Include(x => x.Account)
+                        .Include(x => x.Comments)
+                        .Include(x => x.Cat)
+                        .AsNoTracking()
+                        .Where(x => x.AccountId == myAccount.AccountId)
+                        .OrderByDescending(x => x.CreatedDate)
+                        .ToList();
+                    ViewBag.Ideas = lsIdeas;
+                    var avata = myAccount.Avatar;
+                    ViewBag.avata = avata;
+                    return View(myAccount);
+                }
 
-        //    }
-        //    return RedirectToAction("Login");
-        //}
+            }
+            return RedirectToAction("Login");
+        }
         [HttpGet]
         [AllowAnonymous]
         [Route("dang-ky.html", Name = "DangKy")]

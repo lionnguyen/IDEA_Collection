@@ -1,0 +1,238 @@
+﻿@model IDEA_Collection.Models.Account
+
+@{
+    ViewData["Title"] = "My Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Idea> myIdeas = ViewBag.Ideas;
+    var countComment = ViewBag.CommentsCounts;
+}
+
+<div class="container-fluid">
+    <div class="user-profile social-app-profile">
+        <div class="row">
+            <!-- user profile first-style start-->
+            <div class="col-sm-12 box-col-12">
+                <div class="card hovercard text-center">
+                    <div class="cardheader socialheader"></div>
+                    <div class="user-image">
+                        <div class="avatar"><img alt="" src="../images/avatas/@Model.Avatar"></div>
+                        <div class="icon-wrapper"><i class="icofont icofont-pencil-alt-5"></i></div>
+                        <ul class="share-icons">
+                            <li><a class="social-icon bg-primary" href="#"><i class="fa fa-smile-o"></i></a></li>
+                            <li><a class="social-icon bg-secondary" href="#"><i class="fa fa-wechat"></i></a></li>
+                            <li><a class="social-icon bg-warning" href="#"><i class="fa fa-share-alt"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="info market-tabs p-0">
+                        <ul class="nav nav-tabs border-tab tabs-scoial" id="top-tab" role="tablist">
+                            <li class="nav-item">
+                                <div class="user-designation"></div>
+                                <div class="title"><a target="_blank" href="">@Model.FullName</a></div>
+                                <div class="desc mt-2">@Model.Department.DepartmentName</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="top-tabContent">
+            <div class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline">
+                <div class="row">
+                    <div class="col-xl-3 xl-40 col-lg-12 col-md-5 box-col-4">
+                        <div class="default-according style-1 faq-accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-start ps-0 pe-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">My Profile</button>
+                                    </h2>
+                                </div>
+
+                                <div class="collapse show" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                    <div class="card-body socialprofile filter-cards-view">
+                                        <div class="media">
+                                            <img class="img-50 img-fluid m-r-20 rounded-circle" src="~/images/avatas/@Model.Avatar" alt="">
+                                            <div class="media-body">
+                                                <h6 class="font-primary f-w-600"></h6><span class="d-block"><span><i class="fa fa-comments-o"> </i><span class="px-2">Messages<span class="badge rounded-pill badge-light ms-2">9</span></span></span></span><span class="d-block"><span><i class="fa fa-bell-o"> </i><span class="px-2">notification<span class="badge rounded-pill badge-light ms-2">9</span></span></span></span>
+                                            </div>
+                                        </div>
+                                        <div class="social-btngroup d-flex">
+                                            <button class="btn btn-primary text-center" type="button">Likes</button>
+                                            <button class="btn btn-light text-center ms-2" type="button">View</button>
+                                        </div>
+                                        <div class="likes-profile text-center">
+                                            <h5> <span> <i class="fa fa-heart font-danger"></i> 884</span></h5>
+                                        </div>
+                                        <div class="text-center">35 New Likes This Week</div>
+                                        <div class="customers text-center social-group">
+                                            <ul>
+                                                <li class="d-inline-block"><img class="img-40 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-container="body" data-bs-toggle="tooltip" title="Johny Waston"></li>
+                                                <li class="d-inline-block"><img class="img-40 rounded-circle" src="../assets/images/user/5.jpg" alt="" data-container="body" data-bs-toggle="tooltip" title="Andew Jon"></li>
+                                                <li class="d-inline-block"><img class="img-40 rounded-circle" src="../assets/images/user/1.jpg" alt="" data-container="body" data-bs-toggle="tooltip" title="Comeren Diaz"></li>
+                                                <li class="d-inline-block"><img class="img-40 rounded-circle" src="../assets/images/user/2.png" alt="" data-container="body" data-bs-toggle="tooltip" title="Bucky Barnes"></li>
+                                                <li class="d-inline-block"><img class="img-40 rounded-circle" src="../assets/images/user/8.jpg" alt="" data-container="body" data-bs-toggle="tooltip" title="Jason Borne"></li>
+                                                <li class="d-inline-block"><img class="img-40 rounded-circle" src="../assets/images/user/11.png" alt="" data-container="body" data-bs-toggle="tooltip" title="Comeren Diaz"></li>
+                                            </ul>
+                                        </div><img class="img-fluid mt-5" alt="" src="../assets/images/social-app/timeline-3.png">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 xl-60 col-lg-12 col-md-7 box-col-8">
+                        <div class="row">
+                            @if (myIdeas != null && myIdeas.Count() > 0)
+                            {
+                                for (int i = 0; i < myIdeas.Count(); i++)
+                                {
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="new-users-social">
+                                                    @if (myIdeas[i].Anonymously == true)
+                                                    {
+                                                        <div class="media">
+                                                            <img class="rounded-circle image-radius m-r-15" src="~/images/avatas/Anonymous.png" alt="">
+                                                            <div class="media-body">
+                                                                <h6 class="mb-0 f-w-700">Anonymously</h6>
+                                                                <p>@myIdeas[i].CreatedDate</p>
+                                                            </div><span class="pull-right mt-0"><i data-feather="more-vertical"></i></span>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="media">
+                                                            <img class="rounded-circle image-radius m-r-15" src="~/images/avatas/@myIdeas[i].Account.Avatar" alt="">
+                                                            <div class="media-body">
+                                                                <h6 class="mb-0 f-w-700">@myIdeas[i].Account.FullName</h6>
+                                                                <p>@myIdeas[i].CreatedDate</p>
+                                                            </div><span class="pull-right mt-0"><i data-feather="more-vertical"></i></span>
+                                                        </div>
+                                                    }
+                                                    <p>
+                                                        @myIdeas[i].Contents
+                                                    </p>
+                                                </div>
+                                                @if (@myIdeas[i].Thumb != null)
+                                                {
+                                                    <img class="img-fluid-center" alt="" src="~/images/ideas/@myIdeas[i].Thumb">
+                                                }
+                                                <div class="timeline-content">
+                                                    <div class="like-content">
+                                                        <span>
+                                                            <span>@myIdeas[i].Likes</span>
+                                                            <span><i class="icofont icofont-like"></i></span>
+                                                            <span class="pull-right comment-number">
+                                                                <span>@countComment </span>
+                                                                <span><i class="fa fa-comments-o"></i></span>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="social-chat" id="records_table_comment-@myIdeas[i].PostId">
+                                                    </div>
+                                                    <div class="text-center"><a href="javascript:void(0)" class="viewcomment" data-mapost="@myIdeas[i].PostId">View Commnets</a></div>
+                                                    <div class="comments-box">
+                                                        <div class="media">
+                                                            @if (User.Identity.IsAuthenticated)
+                                                            {
+                                                                <img class="img-50 img-fluid m-r-20 rounded-circle" alt="" src="~/images/avatas/@Model.Avatar">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img class="img-50 img-fluid m-r-20 rounded-circle" alt="" src="~/images/avatas/Anonymous.png">
+                                                            }
+
+                                                            <div class="media-body">
+                                                                <div class="input-group text-box">
+                                                                    <input class="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Post Your commnets">
+                                                                    <div class="input-group-append">
+                                                                        <button class="btn btn-transparent" type="button"><i class="fa fa-smile-o">  </i></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="col-xl-3 xl-100 box-col-12">
+                        <div class="default-according style-1 faq-accordion job-accordion" id="accordionoc1">
+                            <div class="row">
+                                <div class="col-xl-12 xl-50 box-col-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link ps-0" data-bs-toggle="collapse" data-bs-target="#collapseicon2" aria-expanded="true" aria-controls="collapseicon2">Profile Intro</button>
+                                            </h5>
+                                        </div>
+                                        <div class="collapse show" id="collapseicon2" aria-labelledby="collapseicon2" data-bs-parent="#accordion">
+                                            <div class="card-body filter-cards-view">
+                                                <span class="f-w-600 mb-2 d-block">Role:</span>
+                                                <p>
+                                                    @Model.Role.RoleName
+                                                </p><span class="f-w-600 mb-2 d-block">Department :</span>
+                                                <p>
+                                                    @Model.Department.DepartmentName
+                                                </p><span class="f-w-600 mb-2 d-block">Birth day :</span>
+                                                <p>
+                                                    @Model.Birthday
+                                                </p>
+                                                <span class="f-w-600 mb-2 d-block">Address :</span>
+                                                <p>
+                                                    @Model.Address
+                                                </p>
+                                                <span class="f-w-600 mb-2 d-block">Phone :</span>
+                                                <p>
+                                                    @Model.Phone
+                                                </p>
+                                                <div class="social-network theme-form">
+                                                    <span class="f-w-600">Social Networks</span>
+                                                    <button class="btn social-btn btn-fb mb-2 text-center"><i class="fa fa-facebook m-r-5"></i>Facebook</button>
+                                                    <button class="btn social-btn btn-twitter mb-2 text-center"><i class="fa fa-twitter m-r-5"></i>Twitter</button>
+                                                    <button class="btn social-btn btn-google text-center"><i class="fa fa-dribbble m-r-5"></i>Dribbble</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card"><img class="img-fluid" src="../images/avatas/@Model.Avatar" alt=""></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        $(".viewcomment").click(function () {
+            var postId = $(this).attr("data-mapost")
+            $.ajax({
+                url: '/Comment/Comment',
+                datatype: "json",
+                type: "POST",
+                data: { id: postId },
+                async: true,
+                success: function (results) {
+                    $(`#records_table_comment-${postId}`).html("");
+                    $(`#records_table_comment-${postId}`).html(results);
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
+        });
+    });
+</script>
+            }
