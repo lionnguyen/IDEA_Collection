@@ -173,7 +173,7 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
             ViewData["PostId"] = new SelectList(_context.Ideas, "PostId", "PostId", comment.PostId);
             return View(comment);
         }
-
+        //
         // GET: QADepartment/QAComments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
