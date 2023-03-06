@@ -1,0 +1,68 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<IDEA_Collection.Models.Department>
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <span class="breadcrumb-item active">List of department : page @CurrentPage</span>
+        </nav>
+    </div>
+</div>
+
+<div class="col-lg-4">
+    <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminDepartments" asp-action="Create"><i class="anticon anticon-plus-circle m-r-5"></i><span>Add department</span></a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                DepartmentName
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                StartDates
+            </th>
+            <th>
+                StartDates
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDates)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosureDates)
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminDepartments" asp-action="Details" asp-route-id="@item.DepartmentId">Chi tiết</a>
+                    <a class="btn btn-secondary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminDepartments" asp-action="Edit" asp-route-id="@item.DepartmentId">Sửa</a>
+                    <a class="btn btn-success btn-tone m-r-5" asp-area="Admin" asp-controller="AdminDepartments" asp-action="Delete" asp-route-id="@item.DepartmentId">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="Admin" asp-controller="AdminDepartments" asp-action="Index" />
+    </ul>
+</div>
