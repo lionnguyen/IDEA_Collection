@@ -155,3 +155,44 @@
         <pager class="pager-container" list="@Model" asp-area="" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-controller="Home" asp-action="Index" asp-route-FilterID="@ViewBag.CurrentFilterID" />
     </ul>
 </div>
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        jQuery("#txtFilter").change(function () {
+            var filterID = jQuery(this).children(":selected").attr("value");
+            filterID = parseFloat(filterID);
+            $('#txtFilter option')
+                .removeAttr('selected');
+            $("#txtFilter > [value=" + filterID + "]").attr("selected", "true");
+            $.ajax({
+                url: '/Home/Filter',
+                datatype: "json",
+                type: "GET",
+                data: {
+                    filterID: filterID
+                },
+                async: true,
+                success: function (results) {
+                    if (results.status == "success") {
+                        window.location.href = results.redirectUrl;
+                    }
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
+        });
+
+    });
+     $('#modal-header').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var url = button.attr("href");
+        var modal = $(this);
+        // note that this will replace the content of modal-content ever time the modal is opened
+        modal.find('.modal-content').load(url);
+    });
+</script>
+}
+
+								

@@ -77,6 +77,16 @@ namespace IDEA_Collection.Controllers
             ViewBag.CurrentPage = pageNumber;
             return View(models);
         }
+        public IActionResult Filter(int filterID = 0)
+        {
+            var url = $"/Home?filterID={filterID}";
+            if (filterID == 0)
+            {
+                url = $"/Home";
+            }
+            return Json(new { status = "success", redirectUrl = url });
+        }
+
 
         public IActionResult Privacy()
         {
