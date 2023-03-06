@@ -1,0 +1,107 @@
+﻿@model IDEA_Collection.Models.Comment
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+            <a asp-area="Admin" asp-controller="AdminComments" asp-action="Index" class="breadcrumb-item">List of Comment</a>
+            <span class="breadcrumb-item active">Comment detail : @Model.CommentId</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card-body">
+    <h4 class="card-title">Article information : @Model.CommentId</h4>
+    <div class="table-responsive">
+        <table class="product-info-table m-t-20">
+            <tbody>
+                <tr>
+                    <td>ID:</td>
+                    <td class="text-dark font-weight-semibold">@Model.CommentId</td>
+                </tr>
+                <tr>
+                    <td>Full Name</td>
+                    <td>@Model.Account.FullName</td>
+                </tr>
+                <tr>
+                    <td>Post ID</td>
+                    <td>@Model.PostId</td>
+                </tr>
+                <tr>
+                    <td>Status:</td>
+                    <td>
+                        @if (Model.Published)
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" checked="" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Anonymous:</td>
+                    <td>
+                        @if (Model.Anonymously)
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" checked="" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="switch m-r-10">
+                                <input type="checkbox" id="switch-1" disabled />
+                                <label for="switch-1"></label>
+                            </div>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Create Date:</td>
+                    <td>@Model.CreatedDate</td>
+                </tr>
+                <tr>
+                    <td>Like:</td>
+                    <td>@Model.Likes.ToString()</td>
+                </tr>
+                <tr>
+                    <td>Unlikes:</td>
+                    <td>@Model.Unlikes.ToString()</td>
+                </tr>
+                @if (Model.Thumb != null)
+                {
+                    <tr>
+                        <td>Thumb:</td>
+                        <td>
+                            <img width="200" height="200" src="~/images/ideas/@Model.Thumb" alt="" />
+                        </td>
+                    </tr>
+                }
+
+                <tr>
+                    <td>Content:</td>
+                    <td>@Html.Raw(Model.Contents)</td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CommentId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

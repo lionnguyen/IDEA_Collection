@@ -1,0 +1,80 @@
+﻿@model IDEA_Collection.Models.Comment
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form asp-controller="AdminComments" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="page-header no-gutters has-tab">
+        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+            <div class="m-b-15">
+                <button class="btn btn-primary">
+                    <i class="anticon anticon-save"></i>
+                    <span>Save</span>
+                </button>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Basic Info</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-edit-basic">
+            <div class="card">
+                <div class="card-body">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label class="font-weight-semibold" for="commentPost">Post ID</label>
+                            <select class="custom-select" asp-for="PostId" style="min-width: 200px;" asp-items="ViewBag.PostId">
+                                <option value="" disabled selected>Select PostID</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="font-weight-semibold" for="CommentAccount">Account</label>
+                            <select class="custom-select" asp-for="AccountId" style="min-width: 200px;" asp-items="ViewBag.Account">
+                                <option value="" disabled selected>Select Account</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="Contents">Contents</label>
+                        <textarea class="form-control is-invalid" asp-for="Contents" id="validationTextarea" placeholder="Enter content"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="productBrand">Thumb</label>
+                        <input name="fThumb" type="file" class="form-control-file" asp-for="Thumb" />
+                        <span asp-validation-for="Thumb" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="m-t-25">
+                            <div class="form-group d-flex align-items-center">
+                                <div class="switch m-r-10">
+                                    <input type="checkbox" asp-for="Published" checked="">
+                                    <label for="Published"></label>
+                                </div>
+                                <label>Public</label>
+                            </div>
+                            <div class="form-group d-flex align-items-center">
+                                <div class="switch m-r-10">
+                                    <input type="checkbox" asp-for="Anonymously" checked="">
+                                    <label for="Anonymously"></label>
+                                </div>
+                                <label>Anonymous</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
