@@ -26,6 +26,10 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\QADepartment\Data\" />
     <Folder Include="Areas\QADepartment\Models\" />
+    <Folder Include="Views\Idea\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Views\Idea\" />
+  </ItemGroup>
 </Project>
