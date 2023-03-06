@@ -1,8 +1,157 @@
-﻿@{
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<IDEA_Collection.Models.Idea>
+
+
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var avatar = ViewBag.avata;
+    var fullname = ViewBag.fulname;
+    List<Comment> comments = ViewBag.ListComment;
+    List<Like> like = ViewBag.ListLike;
+    List<Unlike> unlike = ViewBag.ListUnlike;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="tab-content" id="top-tabContent">
+    <div class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline">
+        <div class="row">
+            <div class="col-xl-3 xl-40 col-lg-12 col-md-5 box-col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="exampleFormControlSelect9"></label>
+                    <select class="form-select digits" id="txtFilter" name="txtFilter">
+                        <option value="" selected>Filter</option>
+                        <option value="0">Latest</option>
+                        <option value="1">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 xl-40 col-lg-12 col-md-5 box-col-4">
+                <div class="default-according style-1 faq-accordion" id="accordionExample">
+                </div>
+            </div>
+            <div class="col-xl-6 xl-60 col-lg-12 col-md-7 box-col-8">
+                <div class="row">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        for (int i = 0; i < Model.Count(); i++)
+                        {
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="new-users-social">
+                                            @if (Model[i].Anonymously == true)
+                                            {
+                                                <div class="media">
+                                                    <img class="rounded-circle image-radius m-r-15" src="~/images/avatas/Anonymous.png" alt="">
+                                                    <div class="media-body">
+                                                        <h6 class="mb-0 f-w-700">Anonymously</h6>
+                                                        <p>@Model[i].CreatedDate</p>
+                                                    </div>
+                                                    <ul class="nav-menus">
+                                                        <li class="onhover-dropdown">
+                                                            <div class="notification-box"><i data-feather="more-vertical"></i><span class="badge rounded-pill badge-secondary"></span></div>
+                                                            <ul class="notification-dropdown onhover-show-div">
+                                                                <li>
+                                                                    <a asp-controller="Idea" asp-action="Edit" asp-route-id="@Model[i].PostId" asp-area="">Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a asp-controller="Idea" asp-action="Delete" asp-route-id="@Model[i].PostId" asp-area="">Delete</a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="media">
+                                                    <img class="rounded-circle image-radius m-r-15" src="~/images/avatas/@Model[i].Account.Avatar" alt="">
+                                                    <div class="media-body">
+                                                        <h6 class="mb-0 f-w-700">@Model[i].Account.FullName</h6>
+                                                        <p>@Model[i].CreatedDate</p>
+                                                    </div>
+                                                    <ul class="nav-menus">
+                                                        <li class="onhover-dropdown">
+                                                            <div class="notification-box"><i data-feather="more-vertical"></i><span class="badge rounded-pill badge-secondary"></span></div>
+                                                            <ul class="notification-dropdown onhover-show-div">
+                                                                <li>
+                                                                    <a asp-controller="Idea" asp-action="Edit" asp-route-id="@Model[i].PostId" asp-area="">Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a asp-controller="Idea" asp-action="Delete" asp-route-id="@Model[i].PostId" asp-area="">Delete</a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            }
+                                            <p>
+                                                @Model[i].Contents
+                                            </p>
+                                        </div>
+                                        @if (@Model[i].Thumb != null)
+                                        {
+                                            <img class="img-fluid" alt="" src="~/images/ideas/@Model[i].Thumb">
+                                        }
+                                        <hr>
+                                        <div class="timeline-content">
+                                            <div class="like-content">
+                                                <span>
+                                                    <span>@like.Count(x => x.PostId == Model[i].PostId)</span>
+                                                    <span><a asp-controller="Home" asp-action="LikePost" asp-route-id="@Model[i].PostId"><i class="fa fa-thumbs-o-up"></i></a></span>
+                                                    <span>@unlike.Count(x => x.PostId == Model[i].PostId)</span>
+                                                    <span><a asp-controller="Home" asp-action="UnlikePost" asp-route-id="@Model[i].PostId"><i class="fa fa-thumbs-o-down"></i></a></span>
+                                                    <span class="pull-right comment-number">
+                                                        <span>
+                                                            @comments.Count(x => x.PostId == Model[i].PostId)
+                                                        </span>
+                                                        <span><i class="fa fa-comments-o"></i></span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div class="social-chat" id="records_table_comment-@Model[i].PostId">
+                                            </div>
+                                            <div class="text-center"><a href="javascript:void(0)" class="viewcomment" data-mapost="@Model[i].PostId">View Commnets</a></div>
+                                            <div class="comments-box">
+                                                <div class="media">
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        <img class="img-50 img-fluid m-r-20 rounded-circle" alt="" src="~/images/avatas/@avatar">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="img-50 img-fluid m-r-20 rounded-circle" alt="" src="~/images/avatas/Anonymous.png">
+                                                    }
+
+                                                    <div class="media-body">
+                                                        <div class="input-group text-box">
+                                                            <a class="btn btn-secondary btn-tone m-r-5" asp-area="" asp-controller="Comment" asp-action="Create" asp-route-idPost="@Model[i].PostId">Comment</a>
+                                                            <input class="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Post Your commnets">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-transparent" type="button"><i class="fa fa-smile-o">  </i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <pager class="pager-container" list="@Model" asp-area="" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-controller="Home" asp-action="Index" asp-route-FilterID="@ViewBag.CurrentFilterID" />
+    </ul>
 </div>
