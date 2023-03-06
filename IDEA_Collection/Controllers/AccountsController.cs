@@ -97,7 +97,7 @@ namespace IDEA_Collection.Controllers
         [Route("dang-ky.html", Name = "DangKy")]
         public IActionResult DangkyTaiKhoan()
         {
-            ViewData["Departments"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentName");
+            ViewData["Departments"] = new SelectList(_context.Departments.Where(x => x.DepartmentId != 1002), "DepartmentId", "DepartmentName");
             return View();
         }
 
@@ -139,7 +139,7 @@ namespace IDEA_Collection.Controllers
                         ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                         await HttpContext.SignInAsync(claimsPrincipal);
                         _notyfService.Success("Đăng ký thành công");
-                        ViewData["Departments"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentName");
+                        ViewData["Departments"] = new SelectList(_context.Departments.Where(x => x.DepartmentId != 1002), "DepartmentId", "DepartmentName");
                         return RedirectToAction("Login", "Accounts");
                     }
                     catch
@@ -149,7 +149,7 @@ namespace IDEA_Collection.Controllers
                 }
                 else
                 {
-                    ViewData["Departments"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentName");
+                    ViewData["Departments"] = new SelectList(_context.Departments.Where(x => x.DepartmentId != 1002), "DepartmentId", "DepartmentName");
                     return View(taikhoan);
                 }
             }
