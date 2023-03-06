@@ -1,4 +1,5 @@
 using AspNetCoreHero.ToastNotification;
+using IDEA_Collection.Email;
 using IDEA_Collection.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,11 @@ namespace IDEA_Collection
             services.AddControllersWithViews();
             var connectString = Configuration.GetConnectionString("CollectIdeasConnectionString");
             services.AddDbContext<CollectIdeasContext>(options => options.UseSqlServer(connectString));
+
+            services.AddOptions();
+            var mailsettings = Configuration.GetSection("MailSettings");
+            services.Configure<MailSettings>(mailsettings);
+            services.AddTransient<ISendMailService, SendMailService>();
 
             services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
             services.AddSession();
