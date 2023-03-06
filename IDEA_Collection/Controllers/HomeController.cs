@@ -87,7 +87,67 @@ namespace IDEA_Collection.Controllers
             return Json(new { status = "success", redirectUrl = url });
         }
 
+        public async Task<IActionResult> LikePost(int id, [Bind("LikeId,PostId,AccountId")] Like like)
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
 
+            if (taikhoanID == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            var staff = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));
+            var idea = _context.Ideas.AsNoTracking().FirstOrDefault(x => x.PostId == id);
+            var likePost = _context.Likes.FirstOrDefault(x => x.PostId == idea.PostId && x.AccountId == staff.AccountId);
+            var unlikePost = _context.Unlikes.FirstOrDefault(x => x.PostId == idea.PostId && x.AccountId == staff.AccountId);
+            if (likePost != null)
+            {
+                _context.Remove(likePost);
+                await _context.SaveChangesAsync();
+                _notyfService.Success("You have unliked the post!");
+                return RedirectToAction("Index", "Home");
+            }
+            if (unlikePost != null)
+            {
+                _context.Remove(unlikePost);
+
+            }
+            like.PostId = idea.PostId;
+            like.AccountId = staff.AccountId;
+            _context.Add(like);
+            await _context.SaveChangesAsync();
+            _notyfService.Success("You liked the post!");
+            return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> UnlikePost(int id, [Bind("UnlikeId,PostId,AccountId")] Unlike unlike)
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+
+            if (taikhoanID == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            var staff = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));
+            var idea = _context.Ideas.AsNoTracking().FirstOrDefault(x => x.PostId == id);
+            var likePost = _context.Likes.FirstOrDefault(x => x.PostId == idea.PostId && x.AccountId == staff.AccountId);
+            var unlikePost = _context.Unlikes.FirstOrDefault(x => x.PostId == idea.PostId && x.AccountId == staff.AccountId);
+            if (likePost != null)
+            {
+                _context.Remove(likePost);
+            }
+            if (unlikePost != null)
+            {
+                _context.Remove(unlikePost);
+                await _context.SaveChangesAsync();
+                _notyfService.Success("You remove dislike  this post!");
+                return RedirectToAction("Index", "Home");
+            }
+            unlike.PostId = idea.PostId;
+            unlike.AccountId = staff.AccountId;
+            _context.Add(unlike);
+            await _context.SaveChangesAsync();
+            _notyfService.Success("You don't like the post!");
+            return RedirectToAction("Index", "Home");
+        }
         public IActionResult Privacy()
         {
             return View();
