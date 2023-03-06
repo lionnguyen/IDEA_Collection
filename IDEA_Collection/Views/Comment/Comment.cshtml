@@ -1,0 +1,57 @@
+﻿@model IEnumerable<IDEA_Collection.Models.Comment>
+
+@if (Model != null && Model.Count() > 0)
+{
+
+    foreach (var item in Model)
+    {
+        if (item.Anonymously == false)
+        {
+            <div class="media">
+                <img class="img-50 img-fluid m-r-20 rounded-circle" alt="" src="~/images/avatas/@item.Account.Avatar">
+                <div class="media-body">
+                    <span class="f-w-600">@item.Account.FullName<span>@item.CreatedDate</span></span>
+                    <p>@item.Contents</p>
+                </div>
+                <ul class="nav-menus">
+                    <li class="onhover-dropdown">
+                        <div class="notification-box"><i class="fa fa-ellipsis-v"></i><span class="badge rounded-pill badge-secondary"></span></div>
+                        <ul class="notification-dropdown onhover-show-div">
+                            <li>
+                                <a asp-controller="Comment" asp-action="Edit" asp-route-id="@item.CommentId" asp-area="">Edit</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Comment" asp-action="Delete" asp-route-id="@item.CommentId" asp-area="">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <br />
+        }
+        else
+        {
+            <div class="media">
+                <img class="img-50 img-fluid m-r-20 rounded-circle" alt="" src="~/images/avatas/Anonymous.png">
+                <div class="media-body">
+                    <span class="f-w-600">Anonymous<span>@item.CreatedDate</span></span>
+                    <p>@item.Contents</p>
+                </div>
+                <ul class="nav-menus">
+                    <li class="onhover-dropdown">
+                        <div class="notification-box"><i class="fa fa-ellipsis-v"></i><span class="badge rounded-pill badge-secondary"></span></div>
+                        <ul class="notification-dropdown onhover-show-div">
+                            <li>
+                                <a asp-controller="Comment" asp-action="Edit" asp-route-id="@item.CommentId" asp-area="">Edit</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Comment" asp-action="Delete" asp-route-id="@item.CommentId" asp-area="">Delete</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <br />
+        }
+    }
+}

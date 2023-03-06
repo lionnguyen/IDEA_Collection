@@ -1,0 +1,62 @@
+﻿@model IDEA_Collection.Models.Comment
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Create Comment</h5>
+                    <h4>Idea:</h4>
+                    <div>
+                        <p>@ViewBag.Ideas</p>
+                    </div>
+                </div>
+                <form class="form theme-form" asp-controller="Comment" asp-action="Create" asp-route-idPost="@ViewBag.ideasId" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div>
+                                    <label class="form-label" for="exampleFormControlTextarea4">Contents</label>
+                                    <textarea class="form-control" asp-for="Contents" id="exampleFormControlTextarea4" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="exampleFormControlTextarea4">Upload file</label>
+                                    <input name="fThumb" asp-for="Thumb" class="form-control" type="file">
+                                    <span asp-validation-for="Thumb" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="col-form-label m-r-10">Anonymously</label>
+                                    <div>
+                                        <label for="Anonymously" class="switch">
+                                            <input asp-for="Anonymously" type="checkbox" checked=""><span class="switch-state"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-end">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <input class="btn btn-light" type="reset" value="Cancel">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
