@@ -159,6 +159,23 @@
 @section Scripts{
 <script>
     $(document).ready(function () {
+            $(".viewcomment").click(function () {
+                var postId = $(this).attr("data-mapost")
+                $.ajax({
+                    url: '/Comment/Comment',
+                    datatype: "json",
+                    type: "POST",
+                    data: { id: postId },
+                    async: true,
+                    success: function (results) {
+                        $(`#records_table_comment-${postId}`).html("");
+                        $(`#records_table_comment-${postId}`).html(results);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
         jQuery("#txtFilter").change(function () {
             var filterID = jQuery(this).children(":selected").attr("value");
             filterID = parseFloat(filterID);
