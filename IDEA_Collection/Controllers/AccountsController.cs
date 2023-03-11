@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -86,6 +87,7 @@ namespace IDEA_Collection.Controllers
                     ViewBag.Ideas = lsIdeas;
                     var avata = myAccount.Avatar;
                     ViewBag.avata = avata;
+                    ViewBag.fullname = myAccount.FullName;
                     return View(myAccount);
                 }
 
@@ -255,6 +257,68 @@ namespace IDEA_Collection.Controllers
             HttpContext.Session.Remove("RoletId");
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("edit-profile.html", Name = "EditProfile")]
+        public IActionResult EditProfile()
+        {
+            var taikhoanID = HttpContext.Session.GetString("AccountId");
+            if (taikhoanID == null)
+            {
+                return RedirectToAction("Login", "Accounts");
+            }
+            var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
+            ViewBag.avata = taikhoan.Avatar;
+            ViewData["Departments"] = new SelectList(_context.Departments.Where(x => x.DepartmentId != 1002), "DepartmentId", "DepartmentName");
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("edit-profile.html", Name = "EditProfile")]
+        public async Task<IActionResult> EditProfile(EditProfileModel model, Microsoft.AspNetCore.Http.IFormFile fThumb)
+        {
+            try
+            {
+                var taikhoanID = HttpContext.Session.GetString("AccountId");
+                if (taikhoanID == null)
+                {
+                    return RedirectToAction("Login", "Accounts");
+                }
+                else
+                {
+                    var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
+                    if (taikhoan == null) return RedirectToAction("Login", "Accounts");
+                    if (fThumb != null)
+                    {
+                        string extension = Path.GetExtension(fThumb.FileName);
+                        string image = Utilities.SEOUrl(taikhoan.AccountId.ToString()) + extension;
+                        model.Avata = await Utilities.UploadFile(fThumb, @"avatas", image.ToLower());
+                    }
+                    taikhoan.Address = model.Address;
+                    taikhoan.Avatar = model.Avata;
+                    taikhoan.Birthday = model.Birthdate;
+                    taikhoan.Phone = model.Phone;
+                    taikhoan.FullName = model.FullName;
+                    taikhoan.DepartmentId = model.DepartmentID;
+                    _context.Update(taikhoan);
+                    await _context.SaveChangesAsync();
+                    _notyfService.Success("Edit success!");
+                    ViewBag.avata = model.Avata;
+                    ViewData["Departments"] = new SelectList(_context.Departments.Where(x => x.DepartmentId != 1002), "DepartmentId", "DepartmentName");
+                    return RedirectToAction("MyAccount", "Accounts");
+                }
+            }
+            catch
+            {
+                ViewBag.avata = model.Avata;
+                _notyfService.Success("Edit failed!");
+                return RedirectToAction("MyAccount", "Accounts");
+            }
+            ViewBag.avata = model.Avata;
+            _notyfService.Success("Edit failed!");
+            return RedirectToAction("MyAccount", "Accounts");
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -286,7 +350,7 @@ namespace IDEA_Collection.Controllers
                 else
                 {
                     var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
-                    if (taikhoan == null) return RedirectToAction("ChangePassword", "Accounts");
+                    if (taikhoan == null) return RedirectToAction("Index", "Home");
                     model.Avata = taikhoan.Avatar;
                     var pass = model.PasswordNow.Trim().ToMD5();
                     if (pass == taikhoan.Password)

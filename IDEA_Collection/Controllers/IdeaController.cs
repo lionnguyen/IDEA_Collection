@@ -26,7 +26,7 @@ namespace IDEA_Collection.Controllers
             _emailSender = emailSender;
 
         }
-        // GET: Admin/AdminIdeas/Create
+        // GET
         [Route("create-idea.html", Name = "CreateIdea")]
         public IActionResult Create()
         {
@@ -36,14 +36,23 @@ namespace IDEA_Collection.Controllers
                 return RedirectToAction("Login", "Accounts", new { returnUrl = "/create-idea.html" });
             }
             var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
+            var department = _context.Departments.SingleOrDefault(x => x.DepartmentId == taikhoan.DepartmentId);
+            if (department.ClosureDates <= DateTime.Now)
+            {
+                _notyfService.Success("The department has ended, you cannot submit more ideas!");
+                return RedirectToAction("Index", "Home");
+            }
+            if (department.StartDates > DateTime.Now)
+            {
+                _notyfService.Success("The department hasn't started you can't submit ideas!");
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.avata = taikhoan.Avatar;
+            ViewBag.fullname = taikhoan.FullName;
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName");
             return View();
         }
 
-        // POST: Admin/AdminIdeas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Route("create-idea.html", Name = "CreateIdea")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -54,6 +63,7 @@ namespace IDEA_Collection.Controllers
             {
                 return RedirectToAction("Login", "Accounts", new { returnUrl = "/create-idea.html" });
             }
+          
             if (ModelState.IsValid)
             {
                 var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
@@ -75,14 +85,12 @@ namespace IDEA_Collection.Controllers
                 {
                     await _emailSender.SendEmailAsync(item.Email, "Notification!", "You have a new post that needs to be approved.");
                 }
-
-
                 return RedirectToAction("Index", "Home", new { Areas = "" });
             }
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName", idea.CatId);
             return View(idea);
         }
-        // GET: Admin/AdminIdeas/Edit/5
+        // GET
         [Route("edit-idea.html", Name = "EditIdea")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -105,13 +113,12 @@ namespace IDEA_Collection.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.avata = taikhoan.Avatar;
+            ViewBag.fullname = taikhoan.FullName;
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName", idea.CatId);
             return View(idea);
         }
 
-        // POST: Admin/AdminIdeas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST
         [Route("edit-idea.html", Name = "EditIdea")]
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -10,8 +10,6 @@ using PagedList.Core;
 using System.IO;
 using IDEA_Collection.Helpper;
 using AspNetCoreHero.ToastNotification.Abstractions;
-using IDEA_Collection.Helpper;
-using IDEA_Collection.Models;
 
 namespace IDEA_Collection.Areas.Admin.Controllers
 {

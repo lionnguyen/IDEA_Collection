@@ -1,0 +1,72 @@
+﻿@model IDEA_Collection.ModelViews.EditProfileModel
+
+@{
+    ViewData["Title"] = "EditProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-7 order-1"><img class="bg-img-cover bg-center" src="../assets/images/login/1.jpg" alt="looginpage"></div>
+        <div class="col-xl-5 p-0">
+            <div class="login-card">
+                <div>
+                    <div><a class="logo text-start" href="index.html"><img class="img-fluid for-light" src="../assets/images/logo/login.png" alt="looginpage"><img class="img-fluid for-dark" src="../assets/images/logo/logo_dark.png" alt="looginpage"></a></div>
+                    <div class="login-main">
+                        <form class="theme-form" asp-controller="Accounts" asp-action="EditProfile" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <h4>Change your profile</h4>
+                            <div class="form-group">
+                                <label class="col-form-label">Full Name</label>
+                                <div class="form-input position-relative">
+                                    <input class="form-control" type="text" asp-for="FullName" required="">
+                                    <div class="show-hide"><span asp-validation-for="FullName" class="show">                         </span></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Phone</label>
+                                <div class="form-input position-relative">
+                                    <input class="form-control" type="text" asp-for="Phone" required="" >
+                                    <div class="show-hide"><span asp-validation-for="Phone" class="show">                         </span></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Address</label>
+                                <div class="form-input position-relative">
+                                    <input class="form-control" type="text" asp-for="Address" required="" >
+                                    <div class="show-hide"><span asp-validation-for="Address" class="show">                         </span></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Birthday</label>
+                                <div class="form-input position-relative">
+                                    <input class="datepicker-here form-control digits" type="text" asp-for="Birthdate" required="">
+                                    <div class="show-hide"><span asp-validation-for="Birthdate" class="show">                         </span></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-input position-relative">
+                                    <select class="custom-select" asp-for="DepartmentID" asp-items="ViewBag.Departments">
+                                        <option selected>Select Department</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Avata</label>
+                                <div class="form-input position-relative">
+                                    <input name="fThumb" asp-for="Avata" class="form-control" type="file" required="">
+                                    <span asp-validation-for="Avata" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <div class="text-end mt-3">
+                                    <button class="btn btn-primary btn-block w-100" type="submit">Edit profile</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

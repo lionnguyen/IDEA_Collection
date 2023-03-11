@@ -21,7 +21,9 @@
         </div>
         <div class="nav-right col-8 pull-right right-header p-0">
             <ul class="nav-menus">
-
+                <li>
+                    <a asp-controller="Home" asp-action="Index" asp-area=""><i data-feather="home"></i></a>
+                </li>
                 <li>                         <span class="header-search"><i data-feather="search"></i></span></li>
                 <li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"> </i><span class="badge rounded-pill badge-secondary">4                                </span></div>
@@ -61,7 +63,7 @@
                         <div class="media profile-media">
                             <img style="height:40px;width:40px" x="0" y="0" height="100%" class="b-r-10" src="../images/avatas/@avatar">
                             <div class="media-body">
-                                <span>@User.Identity.Name</span>
+                                <span>@ViewBag.fullname</span>
                                 <p class="mb-0 font-roboto"><i class="middle fa fa-angle-down"></i></p>
                             </div>
                         </div>
