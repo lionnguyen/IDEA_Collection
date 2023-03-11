@@ -63,6 +63,7 @@ namespace IDEA_Collection.Controllers
             ViewBag.Ideas = idea.Contents;
             ViewBag.ideasId = idea.PostId;
             ViewBag.avata = taikhoan.Avatar;
+            ViewBag.fullname = taikhoan.FullName;
             return View();
         }
 
@@ -102,6 +103,7 @@ namespace IDEA_Collection.Controllers
                 await _emailSender.SendEmailAsync(idea.Account.Email, "Notification!", "Your post has a new comment");
                 ViewBag.Ideas = idea.Contents;
                 ViewBag.avata = taikhoan.Avatar;
+                ViewBag.fullname = taikhoan.FullName;
                 ViewBag.ideasId = idea.PostId;
                 return RedirectToAction("Index", "Home");
             }
@@ -132,6 +134,7 @@ namespace IDEA_Collection.Controllers
                 .FirstOrDefault(x => x.CommentId == id);
             ViewBag.Ideas = idea.Post.Contents;
             ViewBag.avata = taikhoan.Avatar;
+            ViewBag.fullname = taikhoan.FullName;
             return View(comment);
         }
 

@@ -95,7 +95,21 @@
                                                             <div class="media-body">
                                                                 <h6 class="mb-0 f-w-700">Anonymously</h6>
                                                                 <p>@myIdeas[i].CreatedDate</p>
-                                                            </div><span class="pull-right mt-0"><i data-feather="more-vertical"></i></span>
+                                                            </div>
+                                                            <ul class="nav-menus">
+                                                                <li class="onhover-dropdown">
+                                                                    <div class="notification-box"><span class="pull-right mt-0"><i data-feather="more-vertical"></i></span></div>
+                                                                    <ul class="notification-dropdown onhover-show-div">
+                                                                        <li>
+                                                                            <a asp-controller="Idea" asp-action="Edit" asp-route-id="@myIdeas[i].PostId" asp-area="">Edit</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a asp-controller="Idea" asp-action="Delete" asp-route-id="@myIdeas[i].PostId" asp-area="">Delete</a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     }
                                                     else
@@ -105,7 +119,21 @@
                                                             <div class="media-body">
                                                                 <h6 class="mb-0 f-w-700">@myIdeas[i].Account.FullName</h6>
                                                                 <p>@myIdeas[i].CreatedDate</p>
-                                                            </div><span class="pull-right mt-0"><i data-feather="more-vertical"></i></span>
+                                                            </div>
+                                                            <ul class="nav-menus">
+                                                                <li class="onhover-dropdown">
+                                                                    <div class="notification-box"><span class="pull-right mt-0"><i data-feather="more-vertical"></i></span></div>
+                                                                    <ul class="notification-dropdown onhover-show-div">
+                                                                        <li>
+                                                                            <a asp-controller="Idea" asp-action="Edit" asp-route-id="@myIdeas[i].PostId" asp-area="">Edit</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a asp-controller="Idea" asp-action="Delete" asp-route-id="@myIdeas[i].PostId" asp-area="">Delete</a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     }
                                                     <p>
@@ -190,6 +218,7 @@
                                                 <p>
                                                     @Model.Phone
                                                 </p>
+                                                <a asp-action= "EditProfile" asp-controller ="Accounts" asp-route-id ="@Model.AccountId"><button class="btn btn-info social-btn btn-fb mb-2 text-center"><i class="fa fa-edit"></i>Edit</button> </a>
                                                 <div class="social-network theme-form">
                                                     <span class="f-w-600">Social Networks</span>
                                                     <button class="btn social-btn btn-fb mb-2 text-center"><i class="fa fa-facebook m-r-5"></i>Facebook</button>

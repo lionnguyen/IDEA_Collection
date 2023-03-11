@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IDEA_Collection.Models;
 using PagedList.Core;
 using AspNetCoreHero.ToastNotification.Abstractions;
-using IDEA_Collection.Models;
+
 
 namespace IDEA_Collection.Areas.Admin.Controllers
 {

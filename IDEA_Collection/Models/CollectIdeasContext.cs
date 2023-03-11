@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using IDEA_Collection.ModelViews;
 
 #nullable disable
 
@@ -213,5 +214,7 @@ namespace IDEA_Collection.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<IDEA_Collection.ModelViews.EditProfileModel> EditProfileModel { get; set; }
     }
 }
