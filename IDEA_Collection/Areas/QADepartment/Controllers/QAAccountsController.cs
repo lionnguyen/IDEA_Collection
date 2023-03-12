@@ -30,6 +30,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAAccounts
         public async Task<IActionResult> Index(int? page)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
             var pageSize = 20;
             var departmentID = HttpContext.Session.GetString("DepartmentId");
@@ -47,6 +59,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAAccounts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -67,6 +91,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAAccounts/Create
         public IActionResult Create()
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentId");
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId");
             return View();
@@ -105,6 +141,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAAccounts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -172,6 +220,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAAccounts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IDEA_Collection.Models;
 using PagedList.Core;
 using AspNetCoreHero.ToastNotification.Abstractions;
-
+using Microsoft.AspNetCore.Http;
 
 namespace IDEA_Collection.Areas.Admin.Controllers
 {
@@ -27,6 +27,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminDepartments
         public async Task<IActionResult> Index(int? page)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
             var pageSize = 20;
             var lsDepartment = _context.Departments
@@ -59,6 +71,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminDepartments/Create
         public IActionResult Create()
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             return View();
         }
 
@@ -82,6 +106,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminDepartments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -134,6 +170,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminDepartments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();

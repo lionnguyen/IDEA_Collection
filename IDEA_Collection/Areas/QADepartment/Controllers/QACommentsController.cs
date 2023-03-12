@@ -28,6 +28,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAComments
         public async Task<IActionResult> Index(int? page)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
             var pageSize = 20;
             var departmentID = HttpContext.Session.GetString("DepartmentId");
@@ -44,6 +56,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAComments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -64,6 +88,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAComments/Create
         public IActionResult Create()
         {
+            var accountQAId = HttpContext.Session.GetString("AccountId");
+            if (accountQAId != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountQAId));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             var departmentID = HttpContext.Session.GetString("DepartmentId");
             var accountID = _context.Accounts.Where(a => a.DepartmentId == Convert.ToInt32(departmentID) && a.RoleId != 1002);
             ViewData["AccountId"] = new SelectList(accountID, "AccountId", "FullName");
@@ -104,6 +140,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAComments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var accountQAId = HttpContext.Session.GetString("AccountId");
+            if (accountQAId != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountQAId));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             var departmentID = HttpContext.Session.GetString("DepartmentId");
             var accountID = _context.Accounts
                 .AsNoTracking()
@@ -177,6 +225,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QAComments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var accountQAId = HttpContext.Session.GetString("AccountId");
+            if (accountQAId != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountQAId));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();

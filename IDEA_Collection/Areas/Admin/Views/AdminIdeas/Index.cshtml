@@ -5,6 +5,10 @@
     int CurrentPage = ViewBag.CurrentPage;
     ViewData["Title"] = "Ideas manage";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<Like> countlike = ViewBag.countLike;
+    List<Comment> countComment = ViewBag.countComment;
+    List<Unlike> countUnlike = ViewBag.countUnlike;
+
 }
 
 <div class="page-header">
@@ -51,6 +55,9 @@
                         <th>Status</th>
                         <th>Anonymous</th>
                         <th>Content</th>
+                        <th>Like</th>
+                        <th>Unlike</th>
+                        <th>Comment</th>
                         <th>Create Date</th>
                         <th>#</th>
                     </tr>
@@ -88,6 +95,9 @@
                                     <td>Not anonymous</td>
                                 }
                                 <td>@item.Contents</td>
+                                <td>@countlike.Count(x=> x.PostId == item.PostId)</td>
+                                <td>@countUnlike.Count(x=> x.PostId == item.PostId)</td>
+                                <td>@countComment.Count(x=> x.PostId == item.PostId)</td>
                                 <td>@item.CreatedDate</td>
                                 <td>
                                     <a class="btn btn-primary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminIdeas" asp-action="Details" asp-route-id="@item.PostId">Chi tiết</a>
