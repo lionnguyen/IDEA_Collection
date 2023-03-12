@@ -11,6 +11,7 @@ using IDEA_Collection.Extension;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using IDEA_Collection.Helpper;
 using IDEA_Collection.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace IDEA_Collection.Areas.Admin.Controllers
 {
@@ -28,6 +29,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminAccounts
         public IActionResult Index(int? page)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
             var pageSize = 20;
             var lsAccount = _context.Accounts
@@ -44,6 +57,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminAccounts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -64,6 +89,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminAccounts/Create
         public IActionResult Create()
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             ViewData["Department"] = new SelectList(_context.Departments, "DepartmentId", "DepartmentName");
             ViewData["Role"] = new SelectList(_context.Roles, "RoleId", "RoleName");
             return View();
@@ -99,6 +136,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminAccounts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -166,6 +215,18 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminAccounts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IDEA_Collection.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using PagedList.Core;
+using Microsoft.AspNetCore.Http;
 
 namespace IDEA_Collection.Areas.QADepartment.Controllers
 {
@@ -25,6 +26,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QACategories
         public async Task<IActionResult> Index(int? page)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
             var pageSize = 20;
             var lsCategory = _context.Categories
@@ -39,6 +52,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QACategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -57,6 +82,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QACategories/Create
         public IActionResult Create()
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             return View();
         }
 
@@ -80,6 +117,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QACategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -132,6 +181,18 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         // GET: QADepartment/QACategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var QA = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (QA != null)
+                {
+                    var avata = QA.Avatar;
+                    var fullname = QA.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();

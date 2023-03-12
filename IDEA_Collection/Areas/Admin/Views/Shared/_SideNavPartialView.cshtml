@@ -63,7 +63,7 @@
                 </a>
             </li>
 
-             <!-- Export data -->
+            <!-- Export data -->
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
@@ -74,7 +74,7 @@
                         <i class="arrow-icon"></i>
                     </span>
                 </a>
-                
+
                 <ul class="dropdown-menu">
                     <li>
                         <a asp-action="ExportDepartment" asp-controller="Export" asp-area="Admin">Departments.csv</a>
@@ -93,6 +93,9 @@
                     </li>
                     <li>
                         <a asp-action="ExportRoles" asp-controller="Export" asp-area="Admin">Roles.csv</a>
+                    </li>
+                    <li>
+                        <a asp-action="DownLoadZip" asp-controller="Export" asp-area="Admin">DownLoadZip</a>
                     </li>
                 </ul>
             </li>

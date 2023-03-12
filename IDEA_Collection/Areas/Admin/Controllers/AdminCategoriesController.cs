@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IDEA_Collection.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using PagedList.Core;
+using Microsoft.AspNetCore.Http;
 
 namespace CollectIdeas.Areas.Admin.Controllers
 {
@@ -26,6 +27,18 @@ namespace CollectIdeas.Areas.Admin.Controllers
         // GET: Admin/AdminCategories
         public IActionResult Index(int? page)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
             var pageSize = 20;
             var lsCategory = _context.Categories
@@ -40,6 +53,18 @@ namespace CollectIdeas.Areas.Admin.Controllers
         // GET: Admin/AdminCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -58,6 +83,18 @@ namespace CollectIdeas.Areas.Admin.Controllers
         // GET: Admin/AdminCategories/Create
         public IActionResult Create()
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             return View();
         }
 
@@ -81,6 +118,18 @@ namespace CollectIdeas.Areas.Admin.Controllers
         // GET: Admin/AdminCategories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();
@@ -101,6 +150,7 @@ namespace CollectIdeas.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CatId,CatName,Description,Published,Thumb")] Category category)
         {
+
             if (id != category.CatId)
             {
                 return NotFound();
@@ -133,6 +183,18 @@ namespace CollectIdeas.Areas.Admin.Controllers
         // GET: Admin/AdminCategories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                if (admin != null)
+                {
+                    var avata = admin.Avatar;
+                    var fullname = admin.FullName;
+                    ViewBag.avata = avata;
+                    ViewBag.fullname = fullname;
+                }
+            }
             if (id == null)
             {
                 return NotFound();

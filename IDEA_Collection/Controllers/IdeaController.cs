@@ -70,7 +70,7 @@ namespace IDEA_Collection.Controllers
                 if (fThumb != null)
                 {
                     string extension = Path.GetExtension(fThumb.FileName);
-                    string image = Utilities.SEOUrl(idea.PostId.ToString()) + extension;
+                    string image = Utilities.SEOUrl($"Post-id:{idea.PostId}") + extension;
                     idea.Thumb = await Utilities.UploadFile(fThumb, @"ideas", image.ToLower());
                 }
                 idea.Published = false;
@@ -141,7 +141,7 @@ namespace IDEA_Collection.Controllers
                     if (fThumb != null)
                     {
                         string extension = Path.GetExtension(fThumb.FileName);
-                        string image = Utilities.SEOUrl(idea.PostId.ToString()) + extension;
+                        string image = Utilities.SEOUrl($"Post-id:{idea.PostId}") + extension;
                         idea.Thumb = await Utilities.UploadFile(fThumb, @"ideas", image.ToLower());
                     }
                     idea.CreatedDate = DateTime.Now;

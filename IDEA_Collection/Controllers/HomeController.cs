@@ -1,7 +1,10 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using AspNetCoreHero.ToastNotification.Notyf;
 using DocumentFormat.OpenXml.InkML;
+using Grpc.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using IDEA_Collection.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +13,7 @@ using PagedList.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,13 +23,15 @@ namespace IDEA_Collection.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CollectIdeasContext _context;
+        private IHostingEnvironment _IHosting;
         public INotyfService _notyfService { get; }
 
-        public HomeController(ILogger<HomeController> logger, CollectIdeasContext context, INotyfService notyfService)
+        public HomeController(ILogger<HomeController> logger, CollectIdeasContext context, INotyfService notyfService, IHostingEnvironment IHosting)
         {
             _context = context;
             _logger = logger;
             _notyfService = notyfService;
+            _IHosting = IHosting;
 
         }
 
