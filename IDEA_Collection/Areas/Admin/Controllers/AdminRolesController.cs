@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IDEA_Collection.Models;
 using PagedList.Core;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace IDEA_Collection.Areas.Admin.Controllers
 {
@@ -26,6 +27,13 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         // GET: Admin/AdminRoles
         public async Task<IActionResult> Index(int? page)
         {
+            var accountID = HttpContext.Session.GetString("AccountId");
+            if (accountID != null)
+            {
+                var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.AccountId == Convert.ToInt32(accountID));
+                ViewBag.avata = admin.Avatar;
+                ViewBag.fullname = admin.FullName;
+            }
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
             var pageSize = 20;
             var lsRole = _context.Roles

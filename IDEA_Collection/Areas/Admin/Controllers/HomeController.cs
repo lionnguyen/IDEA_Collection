@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Text;
+using System.Collections.Generic;
+
 namespace IDEA_Collection.Areas.Admin.Controllers
 {
     public class HomeController : Controller
@@ -33,17 +35,14 @@ namespace IDEA_Collection.Areas.Admin.Controllers
                 _notyfService.Success("You cannot access this page!");
                 return RedirectToAction("Index", "Home", new { Area = "" });
             }
-            if (taikhoanID != null)
-            {
-                var account = _context.Accounts.AsNoTracking().Include(x => x.Department).SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));
-
-                if (account != null)
-                {
-                    var avata = account.Avatar;
-                    ViewBag.avata = avata;
-                }
-            }
-
+            var account = _context.Accounts.AsNoTracking().Include(x => x.Department).SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));
+            List<Idea> lsIdeas = _context.Ideas.Include(x => x.Account).ToList();
+            List<Account> lsAccount = _context.Accounts.Include(x => x.Ideas).Where(x => x.RoleId != account.RoleId).OrderByDescending(x => x.Ideas.Count(x => x.Account.RoleId != account.RoleId)).ToList();
+            var lsDepartment = _context.Departments.Include(x => x.Accounts).ThenInclude(x => x.Ideas).Where(x => x.DepartmentId != account.DepartmentId).ToList();
+            ViewBag.avata = account.Avatar;
+            ViewBag.lsIdeas = lsIdeas;
+            ViewBag.lsAccount = lsAccount;
+            ViewBag.lsDepartment = lsDepartment;
             return View();
         }
     }
