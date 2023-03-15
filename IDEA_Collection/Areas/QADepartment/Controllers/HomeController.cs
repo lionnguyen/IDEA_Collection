@@ -3,10 +3,11 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using IDEA_Collection.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IDEA_Collection.Areas.QADepartment.Controllers
 {
@@ -32,18 +33,15 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
                 _notyfService.Success("You cannot access this page!");
                 return RedirectToAction("Index", "Home", new { Area = "" });
             }
-            if (taikhoanID != null)
-            {
-                var khachhang = _context.Accounts.AsNoTracking().Include(x => x.Department).SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));
-
-                if (khachhang != null)
-                {
-                    var avata = khachhang.Avatar;
-                    var department = khachhang.Department.DepartmentName;
-                    ViewBag.avata = avata;
-                    ViewBag.department = department;
-                }
-            }
+            var qaAccount = _context.Accounts.AsNoTracking().Include(x => x.Department).SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));
+            List<Idea> ideasLs = _context.Ideas.Include(x=>x.Account).Where(x => x.Account.DepartmentId == qaAccount.DepartmentId).ToList();
+            List<Account> accountLs =  _context.Accounts.Include(x=>x.Ideas).Where(x => x.DepartmentId == qaAccount.DepartmentId).OrderByDescending(x=>x.Ideas.Count(x=>x.Account.DepartmentId == qaAccount.DepartmentId)).ToList();
+            ViewBag.lsIeas = ideasLs;
+            ViewBag.lsAccount = accountLs;
+            var avata = qaAccount.Avatar;
+            var department = qaAccount.Department.DepartmentName;
+            ViewBag.avata = avata;
+            ViewBag.department = department;
             return View();
         }
     }

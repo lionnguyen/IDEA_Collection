@@ -1,8 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using AspNetCoreHero.ToastNotification.Notyf;
 using DocumentFormat.OpenXml.InkML;
-using Grpc.Core;
-using ICSharpCode.SharpZipLib.Zip;
 using IDEA_Collection.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +10,6 @@ using PagedList.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
