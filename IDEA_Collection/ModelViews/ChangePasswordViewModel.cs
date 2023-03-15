@@ -9,23 +9,23 @@ namespace IDEA_Collection.ModelViews
         public int CustomerId { get; set; }
 
         [Display(Name = "Email")]
-        [Required(ErrorMessage = "Vui lòng email đăng nhập")]
+        [Required(ErrorMessage = "Please email login")]
         public string Email { get; set; }
         [Display(Name = "Avata")]
         public string Avata { get; set; }
 
-        [Display(Name = "Mật khẩu hiện tại")]
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu hiện tại")]
+        [Display(Name = "current password")]
+        [Required(ErrorMessage = "Please enter your current password")]
         public string PasswordNow { get; set; }
 
-        [Display(Name = "Mật khẩu mới")]
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu mới")]
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
+        [Display(Name = "A new password")]
+        [Required(ErrorMessage = "Please enter a new password")]
+        [MinLength(5, ErrorMessage = "You need to set a password of at least 5 characters")]
         public string Password { get; set; }
 
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
-        [Display(Name = "Nhập lại mật khẩu")]
-        [Compare("Password", ErrorMessage = "Nhập lại mật khẩu không đúng")]
+        [MinLength(5, ErrorMessage = "You need to set a password of at least 5 characters")]
+        [Display(Name = "Enter the password again")]
+        [Compare("Password", ErrorMessage = "Password incorrect, please try again")]
         public string ConfirmPassword { get; set; }
     }
 }

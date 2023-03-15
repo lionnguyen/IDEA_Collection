@@ -36,7 +36,7 @@ namespace IDEA_Collection.Controllers
             {
                 var khachhang = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.Phone.ToLower() == Phone.ToLower());
                 if (khachhang != null)
-                    return Json(data: "Số điện thoại : " + Phone + "đã được sử dụng");
+                    return Json(data: "Phone number : " + Phone + "used");
 
                 return Json(data: true);
 
@@ -54,7 +54,7 @@ namespace IDEA_Collection.Controllers
             {
                 var khachhang = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.Email.ToLower() == Email.ToLower());
                 if (khachhang != null)
-                    return Json(data: "Email : " + Email + " đã được sử dụng");
+                    return Json(data: "Email : " + Email + " used");
                 return Json(data: true);
             }
             catch
@@ -118,6 +118,9 @@ namespace IDEA_Collection.Controllers
                         Phone = taikhoan.Phone.Trim().ToLower(),
                         Email = taikhoan.Email.Trim().ToLower(),
                         Password = taikhoan.Password.Trim().ToMD5(),
+                        Address = taikhoan.Address.Trim().ToLower(),
+                        Birthday = taikhoan.Birthday,
+                        Avatar = "Default.png",
                         Active = true,
                         CreateDate = DateTime.Now,
                         DepartmentId = taikhoan.DepartmentId,
@@ -140,7 +143,7 @@ namespace IDEA_Collection.Controllers
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                         ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                         await HttpContext.SignInAsync(claimsPrincipal);
-                        _notyfService.Success("Đăng ký thành công");
+                        _notyfService.Success("Sign Up Success");
                         ViewData["Departments"] = new SelectList(_context.Departments.Where(x => x.DepartmentId != 1002), "DepartmentId", "DepartmentName");
                         return RedirectToAction("Login", "Accounts");
                     }
@@ -188,7 +191,7 @@ namespace IDEA_Collection.Controllers
                     string pass = customer.Password.ToMD5();
                     if (khachhang.Password != pass)
                     {
-                        _notyfService.Success("Thông tin đăng nhập chưa chính xác");
+                        _notyfService.Success("Login information is incorrect");
                         return View(customer);
                     }
                     //kiem tra xem account co bi disable hay khong
@@ -203,11 +206,6 @@ namespace IDEA_Collection.Controllers
                     HttpContext.Session.SetString("RoletId", khachhang.RoleId.ToString());
                     HttpContext.Session.SetString("DepartmentId", khachhang.DepartmentId.ToString());
 
-                    //var taikhoanID = HttpContext.Session.GetString("CustomerId");
-                    //var roleID = HttpContext.Session.GetString("RoletId");
-                    //var departmentID = HttpContext.Session.GetString("DepartmentId");
-
-
                     //Identity
                     var claims = new List<Claim>
                     {
@@ -218,7 +216,7 @@ namespace IDEA_Collection.Controllers
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                     await HttpContext.SignInAsync(claimsPrincipal);
-                    _notyfService.Success("Đăng nhập thành công");
+                    _notyfService.Success("Logged in successfully");
                     if (khachhang.RoleId == 1)
                     {
                         return RedirectToAction("Index", "Home", new { Area = "Admin" });
@@ -359,7 +357,7 @@ namespace IDEA_Collection.Controllers
                         taikhoan.Password = passnew;
                         _context.Update(taikhoan);
                         _context.SaveChanges();
-                        _notyfService.Success("Đổi mật khẩu thành công");
+                        _notyfService.Success("Change password successfully");
                         ViewBag.avata = model.Avata;
                         return RedirectToAction("Index", "Home", new { Area = "" });
                     }
@@ -368,11 +366,11 @@ namespace IDEA_Collection.Controllers
             catch
             {
                 ViewBag.avata = model.Avata;
-                _notyfService.Success("Thay đổi mật khẩu không thành công");
+                _notyfService.Success("Password change failed");
                 return RedirectToAction("ChangePassword", "Accounts");
             }
             ViewBag.avata = model.Avata;
-            _notyfService.Success("Thay đổi mật khẩu không thành công");
+            _notyfService.Success("Password change failed");
             return RedirectToAction("ChangePassword", "Accounts");
         }
     }

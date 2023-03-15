@@ -27,10 +27,22 @@
                                 <input class="form-control" type="email" asp-for="Email" placeholder="Test@gmail.com">
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
-                              <div class="form-group">
+                            <div class="form-group">
                                 <label class="col-form-label">Phone number</label>
                                 <input class="form-control" type="Phone" asp-for="Phone" placeholder="+84xxxxx">
                                 <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Address</label>
+                                <input class="form-control" type="text" asp-for="Address" placeholder="">
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label">Birthday</label>
+                                <div class="form-input position-relative">
+                                    <input class="datepicker-here form-control digits" type="text" asp-for="Birthday">
+                 
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label">Password</label>

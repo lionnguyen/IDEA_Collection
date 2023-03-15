@@ -7,14 +7,14 @@ namespace IDEA_Collection.ModelViews
     {
         [Key]
         [MaxLength(100)]
-        [Required(ErrorMessage = ("Vui lòng nhập Email"))]
-        [Display(Name = "Địa chỉ Email")]
-        [EmailAddress(ErrorMessage = "Sai định dạng Email")]
+        [Required(ErrorMessage = ("Please enter Email"))]
+        [Display(Name = "Email address")]
+        [EmailAddress(ErrorMessage = "Email format wrong")]
         public string UserName { get; set; }
 
-        [Display(Name = "Mật khẩu")]
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
+        [Display(Name = "Password")]
+        [Required(ErrorMessage = "Please enter a password")]
+        [MinLength(5, ErrorMessage = "You need to set a password of at least 5 characters")]
         public string Password { get; set; }
     }
 }

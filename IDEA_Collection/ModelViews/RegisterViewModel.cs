@@ -9,35 +9,42 @@ namespace IDEA_Collection.ModelViews
         [Key]
         public int CustomerId { get; set; }
 
-        [Display(Name = "Họ và Tên")]
-        [Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
+        [Display(Name = "First and last name")]
+        [Required(ErrorMessage = "Please enter Full Name")]
         public string FullName { get; set; }
 
         [Display(Name = "Departments")]
-        [Required(ErrorMessage = "Vui lòng chọn khoa")]
+        [Required(ErrorMessage = "Please select a department")]
         public int DepartmentId { get; set; }
 
         [MaxLength(150)]
-        [Required(ErrorMessage = "Vui lòng nhập Email")]
+        [Required(ErrorMessage = "Please enter Email")]
         [DataType(DataType.EmailAddress)]
         [Remote(action: "ValidateEmail", controller: "Accounts")]
         public string Email { get; set; }
 
         [MaxLength(11)]
-        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
+        [Required(ErrorMessage = "Please enter the phone number")]
         [Display(Name = "Điện thoại")]
         [DataType(DataType.PhoneNumber)]
         [Remote(action: "ValidatePhone", controller: "Accounts")]
         public string Phone { get; set; }
 
+        [Display(Name = "Birthday")]
+        public DateTime Birthday { get; set; }
+
+        [Display(Name = "Address")]
+        [Required(ErrorMessage = "Please enter the address")]
+        public string Address { get; set; }
+
         [Display(Name = "Mật khẩu")]
-        [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
+        [Required(ErrorMessage = "Please enter a password")]
+        [MinLength(5, ErrorMessage = "You need to set a password of at least 5 characters")]
         public string Password { get; set; }
 
-        [MinLength(5, ErrorMessage = "Bạn cần đặt mật khẩu tối thiểu 5 ký tự")]
+        [MinLength(5, ErrorMessage = "You need to set a password of at least 5 characters")]
         [Display(Name = "Nhập lại mật khẩu")]
-        [Compare("Password", ErrorMessage = "Nhập lại mật khẩu không đúng")]
+        [Compare("Password", ErrorMessage = "Password incorrect, please try again")]
         public string ConfirmPassword { get; set; }
     }
 }
