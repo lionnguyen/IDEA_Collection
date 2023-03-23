@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System;
 using System.Linq;
 using System.IO;
+using System.Security.Policy;
+using Org.BouncyCastle.Crypto;
+
 
 namespace IDEA_Collection.Controllers
 {
@@ -26,7 +29,7 @@ namespace IDEA_Collection.Controllers
             _emailSender = emailSender;
         }
         [HttpPost]
-        public async Task<IActionResult> Comment(int? id)
+        public async Task<IActionResult> ViewComment(int? id)
         {
             try
             {
@@ -40,74 +43,37 @@ namespace IDEA_Collection.Controllers
                     .OrderByDescending(x => x.CreatedDate)
                     .ToList();
                 ViewBag.CommentsCounts = comments.Count();
-                return PartialView("Comment", comments);
+                return PartialView("ViewComment", comments);
             }
             catch
             {
                 return NotFound();
             }
         }
-        [Route("create-comment.html", Name = "CreateComment")]
-        public IActionResult Create(int? idPost)
-        {
-            var taikhoanID = HttpContext.Session.GetString("AccountId");
-
-            if (taikhoanID == null)
-            {
-                return RedirectToAction("Login", "Accounts");
-            }
-            var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
-            var idea = _context.Ideas
-                      .FirstOrDefault(x => x.PostId == idPost);
-            if (idea == null) return NotFound();
-            ViewBag.Ideas = idea.Contents;
-            ViewBag.ideasId = idea.PostId;
-            ViewBag.avata = taikhoan.Avatar;
-            ViewBag.fullname = taikhoan.FullName;
-            return View();
-        }
-
-        // POST: Admin/AdminComments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Route("create-comment.html", Name = "CreateComment")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int idPost, [Bind("CommentId,Contents,Thumb,Published,Alias,CreatedDate,AccountId,Likes,Unlikes,Anonymously,PostId")] Comment comment, Microsoft.AspNetCore.Http.IFormFile fThumb)
+        public async Task<IActionResult> CreateComment(int idPost,string content, bool anonymoust)
         {
+            var url = $"/Home";
             var taikhoanID = HttpContext.Session.GetString("AccountId");
             if (taikhoanID == null)
             {
-                return RedirectToAction("Login", "Accounts");
+                return Json(new { status = "success", redirectUrl = "/dang-nhap.html" });
             }
             var idea = _context.Ideas
                  .FirstOrDefault(x => x.PostId == idPost);
-            if (idea == null) return NotFound();
-            if (ModelState.IsValid)
-            {
-                var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
-
-                if (fThumb != null)
-                {
-                    string extension = Path.GetExtension(fThumb.FileName);
-                    string image = Utilities.SEOUrl("Post-comment" + comment.CommentId.ToString()) + extension;
-                    comment.Thumb = await Utilities.UploadFile(fThumb, @"comments", image.ToLower());
-                }
-                comment.AccountId = taikhoan.AccountId;
-                comment.Published = true;
-                comment.PostId = idea.PostId;
-                comment.CreatedDate = DateTime.Now;
-                _context.Add(comment);
-                await _context.SaveChangesAsync();
-                _notyfService.Success("Create success!");
-                await _emailSender.SendEmailAsync(idea.Account.Email, "Notification!", "Your post has a new comment");
-                ViewBag.Ideas = idea.Contents;
-                ViewBag.avata = taikhoan.Avatar;
-                ViewBag.fullname = taikhoan.FullName;
-                ViewBag.ideasId = idea.PostId;
-                return RedirectToAction("Index", "Home");
-            }
-            return View(comment);
+            var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
+            var Postcomment = new Comment();
+            Postcomment.AccountId = taikhoan.AccountId;
+            Postcomment.PostId = idPost;
+            Postcomment.Published = true;
+            Postcomment.Anonymously = anonymoust;
+            Postcomment.Contents = content;
+            Postcomment.CreatedDate = DateTime.Now;
+            _context.Add(Postcomment);
+            await _context.SaveChangesAsync();
+            _notyfService.Success("Create success!");
+            await _emailSender.SendEmailAsync(idea.Account.Email, "Notification!", "Your post has a new comment");
+            return Json(new { status = "success", redirectUrl = url });
         }
         [Route("edit-comment.html", Name = "EditComment")]
         public async Task<IActionResult> Edit(int? id)

@@ -130,11 +130,12 @@
 
                                                     <div class="media-body">
                                                         <div class="input-group text-box">
-                                                            <a class="btn btn-secondary btn-tone m-r-5" asp-area="" asp-controller="Comment" asp-action="Create" asp-route-idPost="@Model[i].PostId">Comment</a>
-                                                            <input class="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Post Your commnets">
-                                                            <div class="input-group-append">
-                                                                <button class="btn btn-transparent" type="button"><i class="fa fa-smile-o">  </i></button>
+                                                            <input class="form-control input-txt-bx" id="contents-@Model[i].PostId" type="text" name="message-to-send" placeholder="Post Your commnets">
+                                                            <div class="form-check checkbox mb-0">
+                                                                <input class="anonymoust-@Model[i].PostId" id="checkbox3-@Model[i].PostId" type="checkbox">
+                                                                <label class="anonymoust-@Model[i].PostId" for="checkbox3-@Model[i].PostId">Anonymoust</label>
                                                             </div>
+                                                            <a class="sendComment" href="javascript:void(0)" data-mapostCmt="@Model[i].PostId" id="sendComment"><i data-feather="send"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -158,12 +159,36 @@
 </div>
 
 @section Scripts{
-<script>
-    $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
+            $(".sendComment").click(function () {
+                var postId = $(this).attr("data-mapostCmt");
+                var content = document.getElementById(`contents-${postId}`).value;
+                var anonymoust = $(`.anonymoust-${postId}`).prop('checked');
+                $.ajax({
+                    url: '/Comment/CreateComment',
+                    datatype: "json",
+                    type: "POST",
+                    data: {
+                        idPost: postId,
+                        content: content,
+                        anonymoust: anonymoust
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
             $(".viewcomment").click(function () {
                 var postId = $(this).attr("data-mapost")
                 $.ajax({
-                    url: '/Comment/Comment',
+                    url: '/Comment/ViewComment',
                     datatype: "json",
                     type: "POST",
                     data: { id: postId },
@@ -177,40 +202,39 @@
                     }
                 });
             });
-        jQuery("#txtFilter").change(function () {
-            var filterID = jQuery(this).children(":selected").attr("value");
-            filterID = parseFloat(filterID);
-            $('#txtFilter option')
-                .removeAttr('selected');
-            $("#txtFilter > [value=" + filterID + "]").attr("selected", "true");
-            $.ajax({
-                url: '/Home/Filter',
-                datatype: "json",
-                type: "GET",
-                data: {
-                    filterID: filterID
-                },
-                async: true,
-                success: function (results) {
-                    if (results.status == "success") {
-                        window.location.href = results.redirectUrl;
+            jQuery("#txtFilter").change(function () {
+                var filterID = jQuery(this).children(":selected").attr("value");
+                filterID = parseFloat(filterID);
+                $('#txtFilter option')
+                    .removeAttr('selected');
+                $("#txtFilter > [value=" + filterID + "]").attr("selected", "true");
+                $.ajax({
+                    url: '/Home/Filter',
+                    datatype: "json",
+                    type: "GET",
+                    data: {
+                        filterID: filterID
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
                     }
-                },
-                error: function (xhr) {
-                    alert('error');
-                }
+                });
             });
-        });
 
-    });
-     $('#modal-header').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var url = button.attr("href");
-        var modal = $(this);
-        // note that this will replace the content of modal-content ever time the modal is opened
-        modal.find('.modal-content').load(url);
-    });
-</script>
+        });
+        $('#modal-header').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var url = button.attr("href");
+            var modal = $(this);
+            // note that this will replace the content of modal-content ever time the modal is opened
+            modal.find('.modal-content').load(url);
+        });
+    </script>
 }
 
-								
