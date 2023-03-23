@@ -33,7 +33,9 @@ namespace IDEA_Collection.Areas.Admin.Controllers
             {
                 sb.AppendLine($"{item.DepartmentId},{item.DepartmentName},{item.StartDates.Value.ToString("dd. MM. yyyy")},{item.ClosureDates.Value.ToString("dd. MM. yyyy")}");
             }
-            return File(Encoding.UTF8.GetBytes(sb.ToString()), "text/csv", "Department.csv");
+            var data = Encoding.UTF8.GetBytes(sb.ToString());
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+            return File(result, "text/csv", "Department.csv");
         }
         public IActionResult ExportAccounts()
         {
@@ -45,7 +47,9 @@ namespace IDEA_Collection.Areas.Admin.Controllers
             {
                 sb.AppendLine($"{item.AccountId},{item.FullName},{item.Phone},{item.Email},{item.Birthday.Value.ToString("dd. MM. yyyy")},{item.Address},{item.Role.RoleName},{item.Department.DepartmentName},{item.CreateDate.Value.ToString("dd. MM. yyyy")}");
             }
-            return File(Encoding.Unicode.GetBytes(sb.ToString()), "text/csv", "Accounts.csv");
+            var data = Encoding.UTF8.GetBytes(sb.ToString());
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+            return File(result, "text/csv", "Accounts.csv");
         }
         public IActionResult ExportCategories()
         {
@@ -57,7 +61,9 @@ namespace IDEA_Collection.Areas.Admin.Controllers
             {
                 sb.AppendLine($"{item.CatId},{item.CatName},{item.Description}");
             }
-            return File(Encoding.Unicode.GetBytes(sb.ToString()), "text/csv", "Categories.csv");
+            var data = Encoding.UTF8.GetBytes(sb.ToString());
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+            return File(result, "text/csv", "Categories.csv");
         }
         public IActionResult ExportIdeas()
         {
@@ -80,7 +86,9 @@ namespace IDEA_Collection.Areas.Admin.Controllers
                 }
 
             }
-            return File(Encoding.Unicode.GetBytes(sb.ToString()), "text/csv", "Ideas.csv");
+            var data = Encoding.UTF8.GetBytes(sb.ToString());
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+            return File(result, "text/csv", "Ideas.csv");
         }
         public IActionResult ExportComments()
         {
@@ -92,7 +100,9 @@ namespace IDEA_Collection.Areas.Admin.Controllers
             {
                 sb.AppendLine($"{item.PostId},{item.Contents},{item.PostId},{item.Account.FullName},{item.Likes},{item.Unlikes},{item.CreatedDate.Value.ToString("dd. MM. yyyy")}");
             }
-            return File(Encoding.Unicode.GetBytes(sb.ToString()), "text/csv", "Comments.csv");
+            var data = Encoding.UTF8.GetBytes(sb.ToString());
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+            return File(result, "text/csv", "Comments.csv");
         }
         public IActionResult ExportRoles()
         {
@@ -104,7 +114,9 @@ namespace IDEA_Collection.Areas.Admin.Controllers
             {
                 sb.AppendLine($"{item.RoleId},{item.RoleName}");
             }
-            return File(Encoding.UTF8.GetBytes(sb.ToString()), "text/csv", "Roles.csv");
+            var data = Encoding.UTF8.GetBytes(sb.ToString());
+            var result = Encoding.UTF8.GetPreamble().Concat(data).ToArray();
+            return File(result, "text/csv", "Roles.csv");
         }
         [Route("DownLoadZip.html", Name = "DownLoadZip")]
         public FileResult DownLoadZip()
