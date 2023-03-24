@@ -48,8 +48,17 @@ namespace IDEA_Collection.Controllers
             var pageNumber = page;
             var pageSize = 5;
             var itemComments = new List<Comment>();
-            List<Idea> lsIdeas = new List<Idea>();
-            List<Comment> lsComment = new List<Comment>();
+            var lsIdeas = _context.Ideas.ToList();
+            List<Comment> lsComment = _context.Comments.ToList();
+            List<Like> lsLike = _context.Likes.ToList();
+            List<Unlike> lsUnlike = _context.Unlikes.ToList();
+            foreach (var item in lsIdeas)
+            {
+                item.Likes = lsLike.Count(x => x.PostId == item.PostId);
+                item.Unlikes = lsUnlike.Count(x => x.PostId == item.PostId);
+                _context.Update(item);
+                _context.SaveChanges();
+            }
             if (filterID != 0)
             {
                 lsIdeas = _context.Ideas
@@ -59,17 +68,15 @@ namespace IDEA_Collection.Controllers
                    .AsNoTracking()
                    .OrderByDescending(x => x.Likes).ToList();
             }
-
-            lsIdeas = _context.Ideas
-                     .Where(x => x.Published == true)
-                     .Include(x => x.Account)
-                     .Include(x => x.Comments)
-                     .AsNoTracking()
-                     .OrderByDescending(x => x.CreatedDate).ToList();
-            lsComment = _context.Comments.ToList();
-            List<Like> lsLike = _context.Likes.ToList();
-            List<Unlike> lsUnlike = _context.Unlikes.ToList();
-
+            else
+            {
+                lsIdeas = _context.Ideas
+                         .Where(x => x.Published == true)
+                         .Include(x => x.Account)
+                         .Include(x => x.Comments)
+                         .AsNoTracking()
+                         .OrderByDescending(x => x.CreatedDate).ToList();
+            }
             PagedList<Idea> models = new PagedList<Idea>(lsIdeas.AsQueryable(), pageNumber, pageSize);
 
             ViewBag.ListComment = lsComment;

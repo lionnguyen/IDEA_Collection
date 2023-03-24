@@ -84,8 +84,14 @@ namespace IDEA_Collection.Controllers
                         .Where(x => x.AccountId == myAccount.AccountId)
                         .OrderByDescending(x => x.CreatedDate)
                         .ToList();
+                    List<Comment> lsComment = _context.Comments.ToList();
+                    List<Like> lsLike = _context.Likes.ToList();
+                    List<Unlike> lsUnlike = _context.Unlikes.ToList();
                     ViewBag.Ideas = lsIdeas;
                     var avata = myAccount.Avatar;
+                    ViewBag.ListComment = lsComment;
+                    ViewBag.ListLike = lsLike;
+                    ViewBag.ListUnlike = lsUnlike;
                     ViewBag.avata = avata;
                     ViewBag.fullname = myAccount.FullName;
                     return View(myAccount);

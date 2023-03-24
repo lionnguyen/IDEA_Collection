@@ -59,8 +59,7 @@ namespace IDEA_Collection.Controllers
             {
                 return Json(new { status = "success", redirectUrl = "/dang-nhap.html" });
             }
-            var idea = _context.Ideas
-                 .FirstOrDefault(x => x.PostId == idPost);
+            var idea = _context.Ideas.Include(x=>x.Account).FirstOrDefault(x => x.PostId == idPost);
             var taikhoan = _context.Accounts.SingleOrDefault(x => x.AccountId == (Convert.ToInt32(taikhoanID)));
             var Postcomment = new Comment();
             Postcomment.AccountId = taikhoan.AccountId;
