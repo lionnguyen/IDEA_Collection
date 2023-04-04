@@ -47,7 +47,7 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
                 .Include(i => i.Account)
                 .Include(i => i.Cat)
                 .Where(a => a.Account.DepartmentId == Convert.ToInt32(departmentID))
-                .OrderBy(x => x.CreatedDate); ;
+                .OrderByDescending(x => x.CreatedDate); ;
             PagedList<Idea> models = new PagedList<Idea>(lsIdeasDepartment, pageNumber, pageSize);
             ViewBag.CurrentPage = pageNumber;
             return View(models);
@@ -259,6 +259,21 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var idea = await _context.Ideas.FindAsync(id);
+            var comment = await _context.Comments.AsNoTracking().Where(a => a.PostId == idea.PostId).ToListAsync();
+            foreach (var item in comment)
+            {
+                _context.Comments.Remove(item);
+            }
+            var like = await _context.Likes.AsNoTracking().Where(a => a.PostId == idea.PostId).ToListAsync();
+            foreach (var item in like)
+            {
+                _context.Likes.Remove(item);
+            }
+            var unlike = await _context.Unlikes.AsNoTracking().Where(a => a.PostId == idea.PostId).ToListAsync();
+            foreach (var item in unlike)
+            {
+                _context.Unlikes.Remove(item);
+            }
             _context.Ideas.Remove(idea);
             await _context.SaveChangesAsync();
             _notyfService.Success("Delete success!");

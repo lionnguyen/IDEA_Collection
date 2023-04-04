@@ -255,6 +255,21 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var account = await _context.Accounts.FindAsync(id);
+            var comment = await _context.Comments.AsNoTracking().Where(a => a.AccountId == account.AccountId).ToListAsync();
+            foreach (var item in comment)
+            {
+                _context.Comments.Remove(item);
+            }
+            var like = await _context.Likes.AsNoTracking().Where(a => a.AccountId == account.AccountId).ToListAsync();
+            foreach (var item in like)
+            {
+                _context.Likes.Remove(item);
+            }
+            var unlike = await _context.Unlikes.AsNoTracking().Where(a => a.AccountId == account.AccountId).ToListAsync();
+            foreach (var item in unlike)
+            {
+                _context.Unlikes.Remove(item);
+            }
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
             _notyfService.Success("Delete success!");

@@ -21,7 +21,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="Title">Title</label>
-                                    <input type="text" class="form-control" asp-for="Title" placeholder="Title">
+                                    <input type="text" class="form-control" asp-for="Title" placeholder="Title" required="">
                                 </div>
                             </div>
                         </div>
@@ -29,7 +29,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlSelect9">Select category</label>
-                                    <select class="form-select digits" asp-for="CatId" id="exampleFormControlSelect9" asp-items="ViewBag.DanhMuc">
+                                    <select class="form-select digits" asp-for="CatId" id="exampleFormControlSelect9" required="" asp-items="ViewBag.DanhMuc">
                                         <option value="" disabled selected>Select Category</option>
                                     </select>
                                 </div>
@@ -39,7 +39,7 @@
                             <div class="col">
                                 <div>
                                     <label class="form-label" for="exampleFormControlTextarea4">Contents</label>
-                                    <textarea class="form-control" asp-for="Contents" id="exampleFormControlTextarea4" rows="3"></textarea>
+                                    <textarea class="form-control" asp-for="Contents" required="" id="exampleFormControlTextarea4" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>

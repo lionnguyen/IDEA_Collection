@@ -246,6 +246,21 @@ namespace IDEA_Collection.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var idea = await _context.Ideas.FindAsync(id);
+            var comment = await _context.Comments.AsNoTracking().Where(a => a.PostId == idea.PostId).ToListAsync();
+            foreach (var item in comment)
+            {
+                _context.Comments.Remove(item);
+            }
+            var like = await _context.Likes.AsNoTracking().Where(a => a.PostId == idea.PostId).ToListAsync();
+            foreach (var item in like)
+            {
+                _context.Likes.Remove(item);
+            }
+            var unlike = await _context.Unlikes.AsNoTracking().Where(a => a.PostId == idea.PostId).ToListAsync();
+            foreach (var item in unlike)
+            {
+                _context.Unlikes.Remove(item);
+            }
             _context.Ideas.Remove(idea);
             await _context.SaveChangesAsync();
             _notyfService.Success("Delete success!");

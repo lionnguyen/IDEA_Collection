@@ -70,8 +70,8 @@ namespace IDEA_Collection.Controllers
             Postcomment.CreatedDate = DateTime.Now;
             _context.Add(Postcomment);
             await _context.SaveChangesAsync();
-            _notyfService.Success("Create success!");
             await _emailSender.SendEmailAsync(idea.Account.Email, "Notification!", "Your post has a new comment");
+            _notyfService.Success("Create success!");
             return Json(new { status = "success", redirectUrl = url });
         }
         [Route("edit-comment.html", Name = "EditComment")]
@@ -169,7 +169,7 @@ namespace IDEA_Collection.Controllers
             }
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
-            _notyfService.Success("Delete success!");
+            _notyfService.Success("Delete comment success!");
             return RedirectToAction("Index", "Home");
         }
         private bool CommentExists(int id)

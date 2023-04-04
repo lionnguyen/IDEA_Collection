@@ -367,6 +367,12 @@ namespace IDEA_Collection.Controllers
                         ViewBag.avata = model.Avata;
                         return RedirectToAction("Index", "Home", new { Area = "" });
                     }
+                    else
+                    {
+                        _notyfService.Success("Lost password incorrectly requires re-entering");
+                        ViewBag.avata = model.Avata;
+                        return RedirectToAction("ChangePassword", "Accounts");
+                    }
                 }
             }
             catch

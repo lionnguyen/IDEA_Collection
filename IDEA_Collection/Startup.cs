@@ -52,7 +52,7 @@ namespace IDEA_Collection
 
             services.AddNotyf(config =>
             {
-                config.DurationInSeconds = 3;
+                config.DurationInSeconds = 5;
                 config.IsDismissable = true;
                 config.Position = NotyfPosition.TopRight;
             });

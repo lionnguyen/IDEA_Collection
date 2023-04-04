@@ -4,7 +4,7 @@
     List<Account> lsAccount = ViewBag.lsAccount;
     List<Idea> lsIeas = ViewBag.lsIeas;
 }
-
+<h5>Department: @ViewBag.department </h5>
 <div class="main-content">
     <div class="row">
         <div class="col-md-12">
@@ -51,6 +51,46 @@
                                                 <td>@lsAccount[i].AccountId</td>
                                                 <td>@lsAccount[i].FullName</td>
                                                 <td>@lsIeas.Count(x=>x.AccountId == lsAccount[i].AccountId)</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>List of anonymous posts</h4>
+                        <div>
+                            <a asp-controller="QAIdeas" asp-action="Index" class="btn btn-sm btn-default">View All</a>
+                        </div>
+                    </div>
+                    <div class="m-t-30">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Full Name</th>
+                                        <th>Posts</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (lsAccount != null && lsAccount.Count() > 0)
+                                    {
+                                        for (int i = 0; i < lsAccount.Count(); i++)
+                                        {
+                                            <tr>
+                                                <td>@lsAccount[i].AccountId</td>
+                                                <td>@lsAccount[i].FullName</td>
+                                                <td>@lsIeas.Count(x=>x.AccountId == lsAccount[i].AccountId && x.Anonymously == true)</td>
                                             </tr>
                                         }
                                     }

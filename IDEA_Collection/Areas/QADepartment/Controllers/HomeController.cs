@@ -30,7 +30,7 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
             var roleID = int.Parse(HttpContext.Session.GetString("RoletId"));
             if (taikhoanID == null || roleID != 1002)
             {
-                _notyfService.Success("You cannot access this page!");
+                _notyfService.Success("You do not have permission to access this page!");
                 return RedirectToAction("Index", "Home", new { Area = "" });
             }
             var qaAccount = _context.Accounts.AsNoTracking().Include(x => x.Department).SingleOrDefault(x => x.AccountId == Convert.ToInt32(taikhoanID));

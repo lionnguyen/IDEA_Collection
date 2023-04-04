@@ -204,7 +204,12 @@ namespace IDEA_Collection.Areas.QADepartment.Controllers
             {
                 return NotFound();
             }
-
+            var idea = await _context.Ideas.FirstOrDefaultAsync(m => m.CatId == id);
+            if(idea != null)
+            {
+                _notyfService.Success("The category in use cannot be deleted!");
+                return RedirectToAction(nameof(Index));
+            }
             return View(category);
         }
 

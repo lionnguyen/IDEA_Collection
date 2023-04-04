@@ -78,7 +78,7 @@ namespace IDEA_Collection.Controllers
                 idea.CreatedDate = DateTime.Now;
                 _context.Add(idea);
                 await _context.SaveChangesAsync();
-                _notyfService.Success("Create success!");
+                _notyfService.Success("Create success.Wait for the QA to approve the post!");
                 var accountDepartment = _context.Accounts.AsNoTracking().Where(x => x.DepartmentId == taikhoan.DepartmentId && x.RoleId == 1002).ToList();
 
                 foreach (var item in accountDepartment)

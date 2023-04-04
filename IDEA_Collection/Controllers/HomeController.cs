@@ -112,7 +112,7 @@ namespace IDEA_Collection.Controllers
             {
                 _context.Remove(likePost);
                 await _context.SaveChangesAsync();
-                _notyfService.Success("You have unliked the post!");
+                _notyfService.Success("You remove like the post!");
                 return RedirectToAction("Index", "Home");
             }
             if (unlikePost != null)
@@ -154,7 +154,7 @@ namespace IDEA_Collection.Controllers
             unlike.AccountId = staff.AccountId;
             _context.Add(unlike);
             await _context.SaveChangesAsync();
-            _notyfService.Success("You don't like the post!");
+            _notyfService.Success(" You dislike the post!");
             return RedirectToAction("Index", "Home");
         }
         public IActionResult Privacy()
